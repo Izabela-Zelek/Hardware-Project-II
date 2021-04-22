@@ -1,0 +1,70 @@
+#include <stdbool.h>
+#include <stdlib.h>
+#include <avr/io.h>
+#include <avr/pgmspace.h>
+#include <uzebox.h>
+#include <defines.h>
+
+
+#include "StarterKit.h"
+
+//Import font file based on Video Mode
+#if TILE_WIDTH == 6 && TILE_HEIGHT == 8
+	#include "data/font-6x8-full.inc"
+#elif TILE_WIDTH == 6 && TILE_HEIGHT == 12
+	#include "data/font-6x12-full.inc"
+#elif TILE_WIDTH == 8 && TILE_HEIGHT == 8
+	#include "data/font-8x8-full.inc"
+#else
+	#error Unsupported tile (6x8, 6x12 and 8x8 tile sizes supported)
+#endif
+
+int main(){
+	//Set font and tiles to be used, and call prior to ClearVram();
+	SetFontTable(font);
+
+	//Clear the screen (fills Vram with tile zero)
+	ClearVram();
+
+	//Print column and rows on screen border
+	for(u8 x=0;x<SCREEN_TILES_H;x++){
+		PrintChar(x,0,'0'+(x%10));
+	}
+	for(u8 y=0;y<SCREEN_TILES_V;y++){
+		PrintChar(0,y,'0'+(y%10));
+	}
+
+	//Prints string on the screen. PSTR() is a macro
+	//Print((SCREEN_TILES_H/2)-14, (SCREEN_TILES_V/2)-1, PSTR("Computer Architecture for Games"));
+
+	PrintChar(10,10,'H');
+	PrintChar(11,10,'e');
+	PrintChar(12,10,'l');
+	PrintChar(13,10,'l');
+	PrintChar(14,10,'o');
+
+
+	int a = 0;
+	char temp = 65;
+	int health = 65 + gethealth();
+	char result = (char)health;
+
+	PrintChar(19,15, '#');
+	PrintChar(20,15, result);
+	PrintChar(21,15, '@');
+
+	while(a <= 8){
+		PrintChar(20 + a,10,temp++);
+		delay();
+		a++;
+	}
+
+	//sample();
+
+	//gameloop();
+
+	while(1)
+	{
+		startgame();
+	}
+}
