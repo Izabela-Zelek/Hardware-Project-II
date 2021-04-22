@@ -35,7 +35,9 @@ static int followerHeight = 3;
 static int followerThinkInterval = 300;
 static int followerThinkTime = 0;
 static int score = 0;
-
+static int health = 100;
+static int enemyHealth = 100;
+static int money = 0;
 
 //Controller Variables
 static int buttonHeld = 0;
@@ -152,6 +154,11 @@ void update() {
 			enemyWidth, enemyHeight) == true) {
 		// write code to add score and reset enemy
 		score = getScore(score, 1);
+		if(score >= 5)
+		{
+			score = getScore(score,-5);
+			money = getMoney(money,1);
+		}
 		enemyX = rnd(SCREEN_TILES_H - enemyWidth);
 		enemyY = 0;
 	}
@@ -160,6 +167,7 @@ void update() {
 			followerY, followerWidth, followerHeight) == true) {
 		// write code to add score and reset enemy
 		score = getScore(score, -1);
+		health = getHealth(health, -1);
 		if(score <= 0 )
 		{
 			score = 0;
@@ -172,10 +180,16 @@ void update() {
 void draw() {
 	//Clear the screen (fills Vram with tile zero)
 	ClearVram();
-	Print(1, 0, PSTR("Score"));
-	PrintInt(10, 0, score, false);
-	PrintInt(17, 0, heroX, false);
-	PrintInt(22, 0, heroY, false);
+	Print(1, 0, PSTR("Artefacts"));
+	PrintInt(14, 0, score, false);
+	PrintInt(19, 0, heroX, false);
+	PrintInt(24, 0, heroY, false);
+	Print(27, 0, PSTR("Health"));
+	PrintInt(37, 0, health, false);
+	Print(1, 17, PSTR("EnemyHealth"));
+	PrintInt(16, 17, enemyHealth, false);
+	Print(27,17,PSTR("Money"));
+	PrintInt (37,17,money,false);
 	drawRectangle(heroX, heroY, heroWidth, heroHeight, '0');
 	drawRectangle(enemyX, enemyY, enemyWidth, enemyHeight, '$');
 	drawRectangle(followerX, followerY, followerWidth, followerHeight, 'X');

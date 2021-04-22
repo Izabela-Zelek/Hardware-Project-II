@@ -73,9 +73,9 @@ startgame:
 ;****************************
 ; Get Health
 ;****************************
-.global gethealth
+.global getHealth
 .section .text.gethealth
-gethealth:
+getHealth:
 	ADD R24,R22
 	CLR	R25
 	RET
@@ -88,4 +88,14 @@ gethealth:
 getScore:
 	ADD R24,R22
 	CLR	R25
+	RET
+
+;****************************
+; Update the Money
+;****************************
+.global getMoney
+.section .text.getMoney
+getMoney:
+	ADD R24, R22
+	CLR R25
 	RET

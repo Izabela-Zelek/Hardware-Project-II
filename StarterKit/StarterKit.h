@@ -9,5 +9,6 @@ extern void sample(void);
 extern void startgame(void);
 extern int getHealth(int, int);
 extern int getScore(int, int);
+extern int getMoney(int, int);
 
 #endif
