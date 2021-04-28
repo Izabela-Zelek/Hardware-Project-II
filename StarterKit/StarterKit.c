@@ -35,13 +35,17 @@ static int followerHeight = 3;
 static int followerThinkInterval = 300;
 static int followerThinkTime = 0;
 static int score = 0;
-static int health = 100;
+static int health = 50;
 static int enemyHealth = 100;
 static int money = 0;
 static bool shop = false;
 static bool beTrue = true;
 static bool game = false;
 static bool instruc = false;
+static bool haveArmour = false;
+static bool gameEnd = false;
+static bool playerWin = false;
+static bool hideText = false;
 
 //Controller Variables
 static int buttonHeld = 0;
@@ -120,6 +124,12 @@ void update() {
 		}
 		case BTN_X:{
 			MoveHero(-1, 0);
+			if(shop && !haveArmour)
+			{
+				hideText = setTrue(hideText,beTrue);
+				money = getMoney(money,-5);
+				haveArmour = setTrue(haveArmour,beTrue);
+			}
 			break;
 		}
 		case BTN_Y:{
@@ -168,9 +178,9 @@ if(game){
 			enemyWidth, enemyHeight) == true) {
 		// write code to add score and reset enemy
 		score = getScore(score, 1);
-		if(score >= 5)
+		if(score >= 7)
 		{
-			score = getScore(score,-5);
+			score = getScore(score,-7);
 			money = getMoney(money,1);
 		}
 		enemyX = rnd(SCREEN_TILES_H - enemyWidth);
@@ -180,8 +190,12 @@ if(game){
 	if (checkCollision(heroX, heroY, heroWidth, heroHeight, followerX,
 			followerY, followerWidth, followerHeight) == true) {
 		// write code to add score and reset enemy
-		score = getScore(score, -1);
-		health = getHealth(health, -1);
+		if(!haveArmour)
+		{score = getScore(score, -1);
+		health = getHealth(health, -1);}
+		else{
+			enemyHealth = getHealth(enemyHealth,-5);
+		}
 		if(score <= 0 )
 		{
 			score = 0;
@@ -192,6 +206,14 @@ if(game){
 	if(money == 5)
 	{
 		shop = setTrue(shop,beTrue);
+	}
+
+	if(enemyHealth <= 0 || health <= 0)
+	{
+		gameEnd = setTrue(gameEnd,beTrue);
+		if(enemyHealth <= 0){
+			playerWin = setTrue(playerWin,beTrue);
+		}
 	}
 }
 }
@@ -210,7 +232,7 @@ void draw() {
 		else{
 			Print(8, 3, PSTR("Collect falling artefacts"));
 			Print(7, 5, PSTR("Avoid artefact loving Boss"));
-			Print(6, 7, PSTR("5 artefacts give you 1 money"));
+			Print(6, 7, PSTR("7 artefacts give you 1 money"));
 			Print(2, 9, PSTR("Collect 20 money to get thorns armour"));
 			Print(2, 11, PSTR("Run into boss to kill him with thorns"));
 			Print(13, 15, PSTR("UP - Start Game"));
@@ -218,17 +240,29 @@ void draw() {
 	}
 	if(game)
 	{
+		if(gameEnd){
+			Print(15, 7, PSTR("Game Over"));
+			if(playerWin)
+			{
+				Print(15, 9, PSTR("You win"));
+			}
+			else{
+				Print(15, 9, PSTR("You lose"));
+			}
+		}
+		else{
 		Print(1, 0, PSTR("Artefacts"));
 		PrintInt(14, 0, score, false);
-		if(shop)
+		if(shop && !hideText)
 		{
-			Print(25, 15, PSTR("Buy Thorns - E"));
+			Print(25, 15, PSTR("Buy Thorns - X"));
 		}
 		PrintInt(19, 0, heroX, false);
 		PrintInt(24, 0, heroY, false);
 
+	if(!haveArmour){
 		Print(27, 0, PSTR("Health"));
-		PrintInt(37, 0, health, false);
+		PrintInt(37, 0, health, false);}
 		Print(1, 17, PSTR("EnemyHealth"));
 		PrintInt(16, 17, enemyHealth, false);
 		Print(27,17,PSTR("Money"));
@@ -237,6 +271,7 @@ void draw() {
 		drawRectangle(enemyX, enemyY, enemyWidth, enemyHeight, '$');
 		drawRectangle(followerX, followerY, followerWidth, followerHeight, 'X');
 	}	
+	}
 }
 bool checkCollision(int x1, int y1, int width1, int height1, int x2, int y2,
 		int width2, int height2) {
