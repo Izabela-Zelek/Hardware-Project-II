@@ -127,7 +127,7 @@ void update() {
 			if(shop && !haveArmour)
 			{
 				hideText = setTrue(hideText,beTrue);
-				money = getMoney(money,-5);
+				money = getMoney(money,-10);
 				haveArmour = setTrue(haveArmour,beTrue);
 			}
 			break;
@@ -203,7 +203,7 @@ if(game){
 		followerX = rnd(SCREEN_TILES_H - followerWidth);
 		followerY = 0;
 	}
-	if(money == 5)
+	if(money == 10)
 	{
 		shop = setTrue(shop,beTrue);
 	}
