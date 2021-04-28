@@ -99,3 +99,13 @@ getMoney:
 	ADD R24, R22
 	CLR R25
 	RET
+
+;****************************
+; Updates bool to true
+;****************************
+.global setTrue
+.section .text.setTrue
+setTrue:
+	MOV R24, R22
+	CLR R25
+	RET
