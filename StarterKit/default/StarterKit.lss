@@ -4299,8 +4299,8 @@ void update() {
     39f8:	80 91 46 09 	lds	r24, 0x0946	; 0x800946 <hideText>
     39fc:	0e 94 28 1c 	call	0x3850	; 0x3850 <setTrue>
     3a00:	80 93 46 09 	sts	0x0946, r24	; 0x800946 <hideText>
-				money = getMoney(money,-5);
-    3a04:	6b ef       	ldi	r22, 0xFB	; 251
+				money = getMoney(money,-10);
+    3a04:	66 ef       	ldi	r22, 0xF6	; 246
     3a06:	7f ef       	ldi	r23, 0xFF	; 255
     3a08:	80 91 3e 09 	lds	r24, 0x093E	; 0x80093e <money>
     3a0c:	90 91 3f 09 	lds	r25, 0x093F	; 0x80093f <money+0x1>
@@ -4653,10 +4653,10 @@ int rnd(int max) {
     3d04:	10 92 39 09 	sts	0x0939, r1	; 0x800939 <followerY+0x1>
     3d08:	10 92 38 09 	sts	0x0938, r1	; 0x800938 <followerY>
 	}
-	if(money == 5)
+	if(money == 10)
     3d0c:	80 91 3e 09 	lds	r24, 0x093E	; 0x80093e <money>
     3d10:	90 91 3f 09 	lds	r25, 0x093F	; 0x80093f <money+0x1>
-    3d14:	05 97       	sbiw	r24, 0x05	; 5
+    3d14:	0a 97       	sbiw	r24, 0x0a	; 10
     3d16:	41 f4       	brne	.+16     	; 0x3d28 <update+0x400>
 	{
 		shop = setTrue(shop,beTrue);

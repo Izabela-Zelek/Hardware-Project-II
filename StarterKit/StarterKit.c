@@ -233,7 +233,7 @@ void draw() {
 			Print(8, 3, PSTR("Collect falling artefacts"));
 			Print(7, 5, PSTR("Avoid artefact loving Boss"));
 			Print(6, 7, PSTR("7 artefacts give you 1 money"));
-			Print(2, 9, PSTR("Collect 20 money to get thorns armour"));
+			Print(2, 9, PSTR("Collect 10 money to get thorns armour"));
 			Print(2, 11, PSTR("Run into boss to kill him with thorns"));
 			Print(13, 15, PSTR("UP - Start Game"));
 		}
